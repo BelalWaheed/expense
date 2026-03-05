@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ☕ SpendWise — Personal Expense Tracker
 
-## Getting Started
+A sleek, offline-first expense tracker built with modern web technologies. All data stays on your device — no accounts, no servers, no tracking.
 
-First, run the development server:
+> **[Live Demo →](#)** _(deploy to Vercel and paste your link here)_
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+- **📊 Dashboard** — Monthly budget progress bar, category donut chart, daily spending line chart, and a recent expenses feed
+- **➕ Add Expense** — Quick form with amount, category (7 types), optional note, and date picker
+- **📋 Expense List** — Browse all expenses with filters by category and date range
+- **⚙️ Settings** — Set monthly budget limits, export data as JSON, and import backups
+- **💾 Persistent Storage** — Zustand + localStorage keeps your data safe across sessions
+- **📱 PWA / Offline** — Installable on mobile, works without internet via service worker
+- **🌗 Dark Mode** — Coffee-themed UI with warm browns and espresso tones
+- **📱 Responsive** — Desktop sidebar + mobile bottom navigation
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer      | Technology                                                           |
+| ---------- | -------------------------------------------------------------------- |
+| Framework  | **Next.js 16.1** (App Router, Turbopack, TypeScript)                 |
+| Styling    | **Tailwind CSS v4**                                                  |
+| Components | **shadcn/ui** (Card, Button, Input, Select, Badge, Progress, Dialog) |
+| Charts     | **Recharts**                                                         |
+| State      | **Zustand 5** with `persist` middleware (localStorage)               |
+| Dates      | **date-fns v4**                                                      |
+| Icons      | **lucide-react**                                                     |
+| PWA        | Manual service worker (network-first caching)                        |
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+├── app/
+│   ├── layout.tsx              # Root layout (dark mode, providers, PWA)
+│   ├── page.tsx                # Dashboard
+│   ├── expenses/
+│   │   ├── page.tsx            # Expense list + filters
+│   │   └── new/page.tsx        # Add expense form
+│   └── settings/page.tsx       # Budget & data management
+├── components/
+│   ├── dashboard/              # BudgetProgress, CategoryDonut, DailySpendChart, RecentExpenses, StatsCards
+│   ├── expenses/               # ExpenseFilters, ExpenseTable
+│   ├── layout/                 # Sidebar, AppShell, StoreProvider, ServiceWorkerRegistration
+│   └── ui/                     # shadcn/ui components
+├── store/
+│   └── expenseStore.ts         # Zustand store with all actions & selectors
+├── types/
+│   └── index.ts                # Category, Expense, MonthlyBudget types + CATEGORY_CONFIG
+└── lib/
+    └── utils.ts                # cn(), formatCurrency()
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
 
-## Learn More
+- **Node.js** 18+
+- **npm** 9+
 
-To learn more about Next.js, take a look at the following resources:
+### Install & Run
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Clone the repo
+git clone https://github.com/YOUR_USERNAME/expense-tracker.git
+cd expense-tracker
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Install dependencies
+npm install
 
-## Deploy on Vercel
+# Start development server
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Production Build
+
+```bash
+npm run build
+npm start
+```
+
+---
+
+## 📦 Data Types
+
+```ts
+type Category =
+  | "food"
+  | "transport"
+  | "housing"
+  | "health"
+  | "entertainment"
+  | "shopping"
+  | "other";
+
+type Expense = {
+  id: string;
+  amount: number;
+  category: Category;
+  note?: string;
+  date: string; // "YYYY-MM-DD"
+  createdAt: string; // ISO string
+};
+
+type MonthlyBudget = {
+  month: string; // "YYYY-MM"
+  limit: number;
+};
+```
+
+---
+
+## 🗄️ Store API
+
+| Method                    | Description                          |
+| ------------------------- | ------------------------------------ |
+| `addExpense(expense)`     | Add a new expense                    |
+| `deleteExpense(id)`       | Remove an expense by ID              |
+| `setBudget(month, limit)` | Set/update monthly budget            |
+| `exportJSON()`            | Download all data as JSON            |
+| `importJSON(jsonString)`  | Import & merge data from JSON backup |
+| `getThisMonthExpenses()`  | Get current month's expenses         |
+| `getThisMonthTotal()`     | Get current month's total spend      |
+| `getThisMonthBudget()`    | Get current month's budget config    |
+| `getByCategory(category)` | Filter expenses by category          |
+
+---
+
+## 🌐 Deployment (Vercel)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+The app works offline after first visit — the service worker caches all routes and assets.
+
+---
+
+## 📄 License
+
+MIT
