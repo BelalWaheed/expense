@@ -3,6 +3,7 @@
 import { BudgetProgress } from "@/components/dashboard/BudgetProgress";
 import { CategoryDonut } from "@/components/dashboard/CategoryDonut";
 import { DailySpendChart } from "@/components/dashboard/DailySpendChart";
+import { WeeklySpendChart } from "@/components/dashboard/WeeklySpendChart";
 import { RecentExpenses } from "@/components/dashboard/RecentExpenses";
 import { StatsCards } from "@/components/dashboard/StatsCards";
 
@@ -22,10 +23,15 @@ export default function DashboardPage() {
         <StatsCards />
       </div>
 
-      {/* Charts row */}
+      {/* Charts row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <CategoryDonut />
         <DailySpendChart />
+      </div>
+
+      {/* Charts row 2 */}
+      <div className="grid grid-cols-1 gap-4">
+        <WeeklySpendChart />
       </div>
 
       {/* Recent list */}

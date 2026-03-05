@@ -11,6 +11,8 @@ import {
   ResponsiveContainer,
   Tooltip,
   CartesianGrid,
+  Area,
+  AreaChart,
 } from "recharts";
 import { TrendingUp } from "lucide-react";
 import {
@@ -45,7 +47,7 @@ export function DailySpendChart() {
   const hasData = expenses.length > 0;
 
   return (
-    <Card className="col-span-full">
+    <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           Daily Spending — {format(now, "MMMM yyyy")}
@@ -54,9 +56,15 @@ export function DailySpendChart() {
       </CardHeader>
       <CardContent>
         {hasData ? (
-          <div className="h-48">
+          <div className="h-52">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data}>
+              <AreaChart data={data}>
+                <defs>
+                  <linearGradient id="dailyGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   stroke="hsl(var(--border))"
@@ -87,17 +95,18 @@ export function DailySpendChart() {
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "8px",
                     fontSize: "12px",
+                    color: "hsl(var(--card-foreground))",
                   }}
                 />
-                <Line
+                <Area
                   type="monotone"
                   dataKey="amount"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 4, strokeWidth: 0 }}
+                  stroke="#f59e0b"
+                  strokeWidth={2.5}
+                  fill="url(#dailyGradient)"
+                  activeDot={{ r: 5, strokeWidth: 0, fill: "#f59e0b" }}
                 />
-              </LineChart>
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         ) : (
