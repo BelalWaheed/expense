@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "SpendWise — Expense Tracker",
   description:
     "Track your expenses, set budgets, and visualize spending patterns. All data stays on your device.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

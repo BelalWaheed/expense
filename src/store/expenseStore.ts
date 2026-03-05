@@ -28,9 +28,16 @@ export const useExpenseStore = create<ExpenseState>()(
       budgets: [],
 
       addExpense: (expense) => {
+        const id =
+          typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+            ? crypto.randomUUID()
+            : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+                const r = (Math.random() * 16) | 0;
+                return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+              });
         const newExpense: Expense = {
           ...expense,
-          id: crypto.randomUUID(),
+          id,
           createdAt: new Date().toISOString(),
         };
         set((state) => ({
